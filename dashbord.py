@@ -8,49 +8,92 @@ st.set_page_config(
     page_icon="💸",
     layout="wide",
 )
-# Estilo do Plotly
+
 px.defaults.template = "plotly_dark"
 px.defaults.color_continuous_scale = px.colors.sequential.Viridis
 
-# --- Carregamento dos dados ---
+# Carregamento dos dados
 @st.cache_data
 def carregar_dados():
     return pd.read_csv(
         "https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao-final.csv"
     )
-# --- Função para aplicar filtros ---
+
+df = carregar_dados()
+
+# Função de filtro
 def aplicar_filtro(df, coluna, valores):
     if valores:
         return df[df[coluna].isin(valores)]
     return df
-# --- Carregar dados ---
-df = carregar_dados()
 
-# --- Barra Lateral (Filtros) ---
-st.sidebar.title("🔎 Filtro")
 
+# Opções dos filtros
+anos = sorted(df["ano"].unique())
+senioridades = sorted(df["senioridade"].unique())
+contratos = sorted(df["contrato"].unique())
+tamanhos = sorted(df["tamanho_empresa"].unique())
+
+# Inicialização do session_state
+if "anos_sel" not in st.session_state:
+    st.session_state.anos_sel = anos
+
+if "senioridades_sel" not in st.session_state:
+    st.session_state.senioridades_sel = senioridades
+
+if "contratos_sel" not in st.session_state:
+    st.session_state.contratos_sel = contratos
+
+if "tamanhos_sel" not in st.session_state:
+    st.session_state.tamanhos_sel = tamanhos
+
+
+# CALLBACK DE RESET 
+def resetar_filtros():
+    st.session_state.anos_sel = anos
+    st.session_state.senioridades_sel = senioridades
+    st.session_state.contratos_sel = contratos
+    st.session_state.tamanhos_sel = tamanhos
+
+# Sidebar
+st.sidebar.title("🔎 Filtros")
 st.sidebar.markdown("Refine os dados para explorar padrões salariais.")
-# Opções de filtro
-anos = sorted(df['ano'].unique())
-senioridades = sorted(df['senioridade'].unique())
-contratos = sorted(df['contrato'].unique())
-tamanhos = sorted(df['tamanho_empresa'].unique())
-# Seletores múltiplos
-anos_sel = st.sidebar.multiselect("📅 Ano", anos, default=anos)
-senioridades_sel = st.sidebar.multiselect("🧠 Senioridade", senioridades, default=senioridades)
-contratos_sel = st.sidebar.multiselect("📄 Contrato", contratos, default=contratos)
-tamanhos_sel = st.sidebar.multiselect("🏢 Tamanho da empresa", tamanhos, default=tamanhos)
-# Botão para resetar filtros
-if st.sidebar.button("🔄 Resetar filtros"):
-    st.rerun()
+# Filtro de ano
+st.sidebar.multiselect(
+    "📅 Ano",
+    anos,
+    key="anos_sel"
+)
+# Filtro de senioridade
+st.sidebar.multiselect(
+    "🧠 Senioridade",
+    senioridades,
+    key="senioridades_sel"
+)
+# Filtro de tipo de contrato
+st.sidebar.multiselect(
+    "📄 Contrato",
+    contratos,
+    key="contratos_sel"
+)
+# Filtro de tamanho da empresa
+st.sidebar.multiselect(
+    "🏢 Tamanho da empresa",
+    tamanhos,
+    key="tamanhos_sel"
+)
+# Botão de reset
+st.sidebar.button(
+    "🔄 Resetar filtros",
+    on_click=resetar_filtros
+)
 
-# Aplicar filtros
+# Aplicação dos filtros
 df_filtrado = df.copy()
-df_filtrado = aplicar_filtro(df_filtrado, "ano", anos_sel)
-df_filtrado = aplicar_filtro(df_filtrado, "senioridade", senioridades_sel)
-df_filtrado = aplicar_filtro(df_filtrado, "contrato", contratos_sel)
-df_filtrado = aplicar_filtro(df_filtrado, "tamanho_empresa", tamanhos_sel)
-
+df_filtrado = aplicar_filtro(df_filtrado, "ano", st.session_state.anos_sel)
+df_filtrado = aplicar_filtro(df_filtrado, "senioridade", st.session_state.senioridades_sel)
+df_filtrado = aplicar_filtro(df_filtrado, "contrato", st.session_state.contratos_sel)
+df_filtrado = aplicar_filtro(df_filtrado, "tamanho_empresa", st.session_state.tamanhos_sel)
 
 # Header
 st.markdown(
@@ -68,30 +111,30 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# Filtros ativos
+# Exibição dos filtros ativos
 st.caption(
     f"Filtros ativos → "
-    f"Ano: {len(anos_sel)} | "
-    f"Senioridade: {len(senioridades_sel)} | "
-    f"Contrato: {len(contratos_sel)} | "
-    f"Empresa: {len(tamanhos_sel)}"
+    f"Ano: {len(st.session_state.anos_sel)} | "
+    f"Senioridade: {len(st.session_state.senioridades_sel)} | "
+    f"Contrato: {len(st.session_state.contratos_sel)} | "
+    f"Empresa: {len(st.session_state.tamanhos_sel)}"
 )
+
+
 
 # Visão geral
 st.subheader("📌 Visão geral")
-
+# Cálculo das métricas
 if not df_filtrado.empty:
-    salario_medio = df_filtrado['usd'].mean()
-    salario_max = df_filtrado['usd'].max()
+    salario_medio = df_filtrado["usd"].mean()
+    salario_max = df_filtrado["usd"].max()
     total = len(df_filtrado)
-    cargo_top = df_filtrado['cargo'].mode().iloc[0]
+    cargo_top = df_filtrado["cargo"].mode().iloc[0]
 else:
     salario_medio = salario_max = total = 0
     cargo_top = "—"
-#
+# Exibição das métricas
 c1, c2, c3, c4 = st.columns(4)
-# Métricas principais
 c1.metric("💰 Salário médio", f"${salario_medio:,.0f}")
 c2.metric("🚀 Salário máximo", f"${salario_max:,.0f}")
 c3.metric("📊 Registros", f"{total:,}")
@@ -100,6 +143,7 @@ c4.metric("🏆 Cargo mais comum", cargo_top)
 
 # Tabs
 tab1, tab2, tab3 = st.tabs(["📊 Análises", "🌍 Geografia", "📋 Dados"])
+
 
 # TAB 1 - Análises
 with tab1:
