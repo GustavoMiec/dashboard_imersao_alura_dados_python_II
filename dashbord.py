@@ -199,7 +199,3 @@ with tab2:
 with tab3:
     st.markdown("### 📋 Base de dados filtrada")
     st.dataframe(df_filtrado, use_container_width=True)
-
-# Rodapé
-st.markdown("---")
-st.caption("Criado com ❤️ usando Streamlit & Plotly | Projeto de Análise de Dados")
