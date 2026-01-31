@@ -7,7 +7,7 @@ O projeto permite analisar tendências, padrões salariais e diferenças
 geográficas de forma visual e intuitiva.
 
 🔗 **Acesse o dashboard online:**\
-[https://dashboardimersaoaluradadospythonii-vpg387fsf8kcqi8fdt2gpn.streamlit.app/](https://dashboardinterativopython.streamlit.app/)
+https://dashboardinterativopython.streamlit.app/
 
 ------------------------------------------------------------------------
 
