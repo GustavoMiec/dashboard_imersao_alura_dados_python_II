@@ -1,107 +1,93 @@
 # 💸 Data Salary Explorer
 
-Dashboard interativo desenvolvido com **Streamlit** para explorar **padrões salariais na área de dados**, permitindo análises por ano, senioridade, tipo de contrato, tamanho da empresa e localização geográfica.
+Dashboard interativo desenvolvido com **Streamlit**, **Pandas** e
+**Plotly** para explorar salários na área de **Dados** (Data Science,
+Analytics, Machine Learning e afins).\
+O projeto permite analisar tendências, padrões salariais e diferenças
+geográficas de forma visual e intuitiva.
 
-O projeto consome dados públicos via CSV e apresenta métricas, gráficos interativos e mapas para facilitar a tomada de insights.
+🔗 **Acesse o dashboard online:**\
+https://dashboardimersaoaluradadospythonii-vpg387fsf8kcqi8fdt2gpn.streamlit.app/
 
----
+------------------------------------------------------------------------
 
-## 🚀 Funcionalidades
+## 📊 Funcionalidades
 
-- 🔎 Filtros dinâmicos por:
-  - Ano
-  - Senioridade
-  - Tipo de contrato
-  - Tamanho da empresa
-- 📊 Métricas principais:
-  - Salário médio
-  - Salário máximo
-  - Total de registros
-  - Cargo mais comum
-- 📈 Visualizações:
-  - Top 10 cargos por salário médio
-  - Distribuição salarial
-  - Mapa mundial com salário médio de **Data Scientist**
-- 📋 Visualização da base de dados filtrada
-- ⚡ Cache de dados para melhor performance
+-   🔎 **Filtros interativos**
+    -   Ano
+    -   Senioridade
+    -   Tipo de contrato
+    -   Tamanho da empresa
+-   📌 **Visão geral**
+    -   Salário médio
+    -   Salário máximo
+    -   Total de registros
+    -   Cargo mais comum
+-   📊 **Análises visuais**
+    -   Top 10 cargos por salário médio
+    -   Distribuição salarial
+-   🌍 **Mapa interativo**
+    -   Salário médio de *Data Scientists* por país
+-   📋 **Tabela de dados**
+    -   Visualização da base filtrada em tempo real
 
----
+------------------------------------------------------------------------
 
-## 🧠 Tecnologias utilizadas
+## 🧠 Insights obtidos
 
-- Python 3.10+
-- Streamlit
-- Pandas
-- Plotly Express
+-   Cargos mais especializados apresentam salários mais elevados\
+-   Senioridade impacta diretamente a remuneração\
+-   O trabalho remoto amplia a faixa salarial\
+-   Existem diferenças salariais relevantes entre países
 
----
+------------------------------------------------------------------------
 
-## 📦 Estrutura do projeto
+## 🛠️ Tecnologias utilizadas
 
-```
-.
-├── app.py
-├── README.md
-├── requirements.txt
-└── venv/
-```
+-   Python
+-   Streamlit
+-   Pandas
+-   Plotly Express
 
----
+------------------------------------------------------------------------
 
-## 🛠️ Configuração do ambiente virtual
+## 📂 Fonte dos dados
 
-### Criar o venv
-```bash
-python -m venv venv
-```
+Os dados são carregados automaticamente a partir de um arquivo CSV
+hospedado no GitHub:
 
-### Ativar o venv
+    https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/main/dados-imersao-final.csv
 
-**Windows**
-```bash
-venv\Scripts\activate
-```
+------------------------------------------------------------------------
 
-**Linux / macOS**
-```bash
-source venv/bin/activate
-```
+## 🚀 Como executar o projeto localmente
 
----
-
-## 📥 Instalação das dependências
-
-```bash
-pip install -r requirements.txt
-```
-
-Arquivo `requirements.txt`:
-
-```txt
-streamlit
-pandas
-plotly
-```
-
----
-
-## ▶️ Executando a aplicação
-
-```bash
+``` bash
+pip install streamlit pandas plotly
 streamlit run app.py
 ```
 
-Acesse em:
-http://localhost:8501
+> Substitua `app.py` pelo nome do arquivo principal do projeto.
 
----
+------------------------------------------------------------------------
 
-## 🌐 Fonte dos dados
+## 📌 Objetivo do projeto
 
-Os dados são carregados automaticamente via CSV público hospedado no GitHub.
+Projeto desenvolvido com foco educacional e exploratório durante a
+**Imersão Alura Dados com Python**, aplicando conceitos de:
 
----
+-   Análise exploratória de dados (EDA)
+-   Visualização interativa
+-   Data storytelling
+-   Deploy com Streamlit Cloud
 
-## ❤️ Créditos
+------------------------------------------------------------------------
 
-Projeto criado com ❤️ usando Streamlit & Plotly.
+## 👨‍💻 Autor
+
+Desenvolvido por **Gustavo**\
+Projeto utilizado como estudo e item de portfólio em Data Science.
+
+------------------------------------------------------------------------
+
+✨ Fique à vontade para clonar, estudar, adaptar e evoluir este projeto!
